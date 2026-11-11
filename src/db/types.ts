@@ -49,5 +49,5 @@ export interface Meta {
   schemaVersion: number;
   lastSyncAt?: string;
   /** Cached AI results, keyed by feature, with when they were generated. */
-  ai?: { [feature: string]: { generatedAt: string; result: unknown } };
+  ai?: { [feature: string]: { generatedAt: string; result: unknown; /** Fingerprint of the data the result was made from. */ dataKey?: string } };
 }

@@ -10,6 +10,7 @@ import { Tile } from '../components/Tile';
 import { BarChart } from '../components/BarChart';
 import { ReadingCard } from '../components/ReadingCard';
 import { QuoteCard } from '../components/QuoteCard';
+import { SuggestedNext } from '../components/SuggestedNext';
 import { LogSessionSheet } from '../sheets/LogSessionSheet';
 import { Button } from '../components/Button';
 import { READER_NAME } from '../lib/config';
@@ -114,6 +115,9 @@ export function Home() {
           ariaLabel={`Books finished each month of ${year}`}
         />
       </Card>
+
+      {books && <SuggestedNext books={books} />}
+
       {logging && (
         <LogSessionSheet
           book={logging}

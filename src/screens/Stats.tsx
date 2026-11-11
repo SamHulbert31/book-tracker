@@ -8,6 +8,7 @@ import { Tile } from '../components/Tile';
 import { Card, CardHeading, CardTitle } from '../components/Card';
 import { BarChart } from '../components/BarChart';
 import { ChevronLeftIcon } from '../components/Icons';
+import { EnjoyingCard } from '../components/EnjoyingCard';
 import { YearSheet } from '../sheets/YearSheet';
 import { MONTH_LETTERS, formatDate, formatDuration, formatNumber } from '../lib/dates';
 import {
@@ -226,6 +227,8 @@ export function Stats() {
           )}
         </>
       )}
+
+      {books && <EnjoyingCard books={books} />}
 
       {pickYear && (
         <YearSheet

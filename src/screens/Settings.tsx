@@ -11,6 +11,7 @@ import { syncEngine, useSyncState } from '../sync';
 import { DEFAULT_PATH, DEFAULT_REPO, readSettings, syncConfig, writeSettings, type DeviceSettings } from '../sync/config';
 import { exportJson, importJson, readFileText } from '../sync/file';
 import { GitHubError, testConnection } from '../sync/github';
+import { AiError, DEFAULT_GEMINI_MODEL, geminiProvider } from '../ai/provider';
 import { planImport, readGoodreadsRows, type ImportPlan } from '../lib/goodreads';
 import styles from './Settings.module.css';
 
@@ -39,6 +40,8 @@ export function Settings() {
   const [showKey, setShowKey] = useState(false);
   const [test, setTest] = useState<Note | null>(null);
   const [testing, setTesting] = useState(false);
+  const [aiTest, setAiTest] = useState<Note | null>(null);
+  const [aiTesting, setAiTesting] = useState(false);
   const [dataNote, setDataNote] = useState<Note | null>(null);
   const [plan, setPlan] = useState<ImportPlan | null>(null);
   const jsonInput = useRef<HTMLInputElement>(null);
@@ -50,6 +53,20 @@ export function Settings() {
     writeSettings(patch);
     syncEngine.refresh();
     setTest(null);
+    setAiTest(null);
+  }
+
+  async function testAi() {
+    if (!s.geminiKey.trim()) return setAiTest({ ok: false, text: 'Enter a Gemini API key first.' });
+    setAiTesting(true);
+    try {
+      const reply = await geminiProvider(s.geminiKey, s.geminiModel).generate('Reply with the single word OK.');
+      setAiTest({ ok: true, text: `Gemini answered: ${reply.trim().slice(0, 40)}` });
+    } catch (e) {
+      setAiTest({ ok: false, text: e instanceof AiError ? e.message : 'Could not reach Gemini.' });
+    } finally {
+      setAiTesting(false);
+    }
   }
 
   async function testSync() {
@@ -142,7 +159,7 @@ export function Settings() {
 
       <Card gap={10}>
         <CardTitle>AI</CardTitle>
-        <p className={styles.note}>Optional. A free Gemini key for the AI suggestions. It is stored only on this device, and only titles, authors, genres, ratings and dates are ever sent.</p>
+        <p className={styles.note}>Optional. With a free Gemini key the app suggests what to read next, summarises what you enjoy, and tags books that have no genre. Without one, those cards stay hidden and everything else works. The key is stored only on this device, and only titles, authors, genres, ratings, dates and counts are ever sent.</p>
         <Field label="Gemini API key">
           <div className={styles.secret}>
             <Input type={showKey ? 'text' : 'password'} value={s.geminiKey} onChange={(e) => save({ geminiKey: e.target.value })} autoComplete="off" autoCapitalize="none" autoCorrect="off" spellCheck={false} />
@@ -152,8 +169,17 @@ export function Settings() {
           </div>
         </Field>
         <Field label="Model name">
-          <Input value={s.geminiModel} onChange={(e) => save({ geminiModel: e.target.value })} autoCapitalize="none" autoCorrect="off" spellCheck={false} />
+          <Input value={s.geminiModel} onChange={(e) => save({ geminiModel: e.target.value })} autoCapitalize="none" autoCorrect="off" spellCheck={false} placeholder={DEFAULT_GEMINI_MODEL} />
         </Field>
+        <p className={styles.note}>Blank uses {DEFAULT_GEMINI_MODEL}, which is on the free tier.</p>
+        <Button variant="outline" block disabled={aiTesting} onClick={testAi}>
+          {aiTesting ? 'Testing…' : 'Test'}
+        </Button>
+        {aiTest && (
+          <p className={`${styles.note} ${noteClass(aiTest)}`} role="status">
+            {aiTest.text}
+          </p>
+        )}
       </Card>
 
       <Card gap={10}>

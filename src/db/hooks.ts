@@ -38,5 +38,6 @@ export function useBookQuotes(bookId: string | undefined) {
 }
 
 export function useMeta() {
-  return useLiveQuery(() => db.meta.get('main'), []);
+  /** `undefined` while loading, `null` when there is no meta record yet. */
+  return useLiveQuery(async () => (await db.meta.get('main')) ?? null, []);
 }
