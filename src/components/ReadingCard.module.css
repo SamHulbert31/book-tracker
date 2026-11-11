@@ -1,0 +1,106 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.track {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  /* A horizontal swipe belongs to the carousel; vertical scrolling stays with the page. */
+  overscroll-behavior-x: contain;
+}
+
+.track::-webkit-scrollbar {
+  display: none;
+}
+
+.slide {
+  flex: 0 0 100%;
+  min-width: 0;
+  scroll-snap-align: start;
+}
+
+.cover {
+  text-decoration: none;
+  flex: none;
+  align-self: flex-start;
+  display: block;
+}
+
+.body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.titleLink {
+  display: flex;
+  align-items: center;
+  min-height: var(--tap);
+  /* 44px to tap, but the same visual spacing as the mockup. */
+  margin: -10px 0;
+  color: inherit;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+.sub {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.bar {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--border);
+}
+
+.fill {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--green);
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.percent {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.log {
+  min-height: var(--tap);
+  margin: -8px -8px -14px 0;
+  padding: 0 8px;
+  border: none;
+  background: transparent;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--green);
+}
+
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--border);
+}
+
+.activeDot {
+  background: var(--green);
+}

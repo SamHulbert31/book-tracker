@@ -7,6 +7,10 @@ export function useBooks() {
   return useLiveQuery(() => db.books.filter((b) => !b.deletedAt).toArray(), []);
 }
 
+export function useSessions() {
+  return useLiveQuery(() => db.sessions.filter((s) => !s.deletedAt).toArray(), []);
+}
+
 /** `null` means the book does not exist (or was deleted). */
 export function useBook(id: string | undefined) {
   return useLiveQuery(async () => {

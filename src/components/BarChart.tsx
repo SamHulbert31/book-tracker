@@ -11,16 +11,18 @@ interface BarChartProps {
   barMax: number;
   /** The value that fills barMax. Defaults to the largest value. */
   scaleMax?: number;
+  /** Space between bars in px. Defaults to 6; a month of days uses less. */
+  gap?: number;
   ariaLabel: string;
 }
 
 const EMPTY_BAR = 3;
 
 /** Hand built bar chart: one flex column per bar, label underneath. */
-export function BarChart({ values, labels, highlight, height, barMax, scaleMax, ariaLabel }: BarChartProps) {
+export function BarChart({ values, labels, highlight, height, barMax, scaleMax, gap = 6, ariaLabel }: BarChartProps) {
   const max = scaleMax ?? Math.max(...values, 0);
   return (
-    <div className={styles.chart} style={{ height }} role="img" aria-label={ariaLabel}>
+    <div className={styles.chart} style={{ height, gap }} role="img" aria-label={ariaLabel}>
       {values.map((value, i) => {
         const barHeight = value <= 0 || max <= 0 ? EMPTY_BAR : Math.max(EMPTY_BAR, Math.round((value / max) * barMax));
         // A highlighted bar is always green, even when empty.
