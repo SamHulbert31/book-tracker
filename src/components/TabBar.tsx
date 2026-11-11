@@ -3,7 +3,7 @@ import { HomeIcon, LibraryIcon, StatsIcon } from './Icons';
 import styles from './TabBar.module.css';
 
 const TABS = [
-  { to: '/', label: 'Home', icon: <HomeIcon />, matches: (p: string) => p === '/' },
+  { to: '/', label: 'Home', icon: <HomeIcon />, matches: (p: string) => p === '/' || p.startsWith('/settings') },
   {
     to: '/library',
     label: 'Library',

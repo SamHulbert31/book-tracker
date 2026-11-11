@@ -1,11 +1,12 @@
 import type { ReactNode } from 'react';
-import { PlusIcon } from './Icons';
+import { Link } from 'react-router-dom';
+import { PlusIcon, SettingsIcon } from './Icons';
 import styles from './ScreenHeader.module.css';
 
 interface ScreenHeaderProps {
   title: string;
   /** Small line above the title (Home shows the date). */
-  eyebrow?: string;
+  eyebrow?: ReactNode;
   action?: ReactNode;
 }
 
@@ -27,5 +28,14 @@ export function AddButton({ onClick, label = 'Add a book' }: { onClick?: () => v
     <button type="button" className={styles.add} aria-label={label} onClick={onClick}>
       <PlusIcon />
     </button>
+  );
+}
+
+/** Round outline button linking to Settings, shown beside the add button on Home. */
+export function SettingsLink() {
+  return (
+    <Link to="/settings" className={styles.ghost} aria-label="Settings">
+      <SettingsIcon />
+    </Link>
   );
 }

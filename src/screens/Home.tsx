@@ -2,7 +2,8 @@ import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { Book } from '../db/types';
 import { useBooks, useQuotes, useSessions } from '../db/hooks';
-import { AddButton, ScreenHeader } from '../components/ScreenHeader';
+import { AddButton, ScreenHeader, SettingsLink } from '../components/ScreenHeader';
+import { SyncDot } from '../components/SyncDot';
 import { Screen } from '../components/Screen';
 import { Card, CardHeading, Eyebrow, CardTitle } from '../components/Card';
 import { Tile } from '../components/Tile';
@@ -50,7 +51,21 @@ export function Home() {
 
   return (
     <Screen gap={16}>
-      <ScreenHeader eyebrow={longDate(now)} title={`${greeting(now)}, ${READER_NAME}`} action={<AddButton onClick={() => navigate('/add')} />} />
+      <ScreenHeader
+        eyebrow={
+          <>
+            {longDate(now)}
+            <SyncDot />
+          </>
+        }
+        title={`${greeting(now)}, ${READER_NAME}`}
+        action={
+          <div style={{ display: 'flex', gap: 8 }}>
+            <SettingsLink />
+            <AddButton onClick={() => navigate('/add')} />
+          </div>
+        }
+      />
 
       {/* A random quote once any exist; until then, a gentle prompt. */}
       {quoteItems.length > 0 ? (

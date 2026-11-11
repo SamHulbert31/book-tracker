@@ -36,3 +36,7 @@ export function useBookQuotes(bookId: string | undefined) {
     [bookId],
   );
 }
+
+export function useMeta() {
+  return useLiveQuery(() => db.meta.get('main'), []);
+}

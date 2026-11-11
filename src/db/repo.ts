@@ -1,6 +1,7 @@
 import { db } from './db';
 import type { Book, Quote, Session } from './types';
 import { todayISO } from '../lib/dates';
+import { schedulePush } from '../sync';
 
 const now = () => new Date().toISOString();
 
@@ -13,17 +14,31 @@ function merge<T extends object>(existing: T, patch: Partial<T>): T {
   return merged as T;
 }
 
+// Every change below ends with schedulePush(): after about five quiet seconds the
+// change is synced to the private GitHub repo (a no-op until sync is set up).
+
+// ---- Books
+
 export type NewBook = Pick<Book, 'title' | 'author' | 'genres' | 'status'> &
   Partial<Omit<Book, 'id' | 'createdAt' | 'updatedAt' | 'deletedAt'>>;
 
 export async function addBook(input: NewBook): Promise<Book> {
   const stamp = now();
-  const book = merge(
-    { ...input, id: crypto.randomUUID(), createdAt: stamp, updatedAt: stamp } as Book,
-    {},
-  );
+  const book = merge({ ...input, id: crypto.randomUUID(), createdAt: stamp, updatedAt: stamp } as Book, {});
   await db.books.add(book);
+  schedulePush();
   return book;
+}
+
+/** Adds many books at once (the Goodreads import). A book may carry its own createdAt, e.g. the Goodreads "Date Added". */
+export async function addBooks(inputs: (NewBook & { createdAt?: string })[]): Promise<number> {
+  const stamp = now();
+  const books = inputs.map((input) =>
+    merge({ ...input, id: crypto.randomUUID(), createdAt: input.createdAt ?? stamp, updatedAt: stamp } as Book, {}),
+  );
+  await db.books.bulkAdd(books);
+  schedulePush();
+  return books.length;
 }
 
 export async function updateBook(id: string, patch: Partial<Book>): Promise<void> {
@@ -32,6 +47,7 @@ export async function updateBook(id: string, patch: Partial<Book>): Promise<void
     if (!existing || existing.deletedAt) return;
     await db.books.put(merge(existing, { ...patch, updatedAt: now() }));
   });
+  schedulePush();
 }
 
 export const startReading = (id: string) =>
@@ -52,6 +68,7 @@ export async function deleteBook(id: string): Promise<void> {
     await db.sessions.where('bookId').equals(id).modify({ deletedAt: stamp, updatedAt: stamp });
     await db.quotes.where('bookId').equals(id).modify({ deletedAt: stamp, updatedAt: stamp });
   });
+  schedulePush();
 }
 
 // ---- Sessions
@@ -62,6 +79,7 @@ export async function addSession(input: NewSession): Promise<Session> {
   const stamp = now();
   const session = merge({ ...input, id: crypto.randomUUID(), createdAt: stamp, updatedAt: stamp } as Session, {});
   await db.sessions.add(session);
+  schedulePush();
   return session;
 }
 
@@ -71,11 +89,13 @@ export async function updateSession(id: string, patch: Partial<Session>): Promis
     if (!existing || existing.deletedAt) return;
     await db.sessions.put(merge(existing, { ...patch, updatedAt: now() }));
   });
+  schedulePush();
 }
 
 export async function deleteSession(id: string): Promise<void> {
   const stamp = now();
   await db.sessions.update(id, { deletedAt: stamp, updatedAt: stamp });
+  schedulePush();
 }
 
 /**
@@ -100,6 +120,7 @@ export async function addQuote(input: NewQuote): Promise<Quote> {
   const stamp = now();
   const quote = merge({ ...input, id: crypto.randomUUID(), createdAt: stamp, updatedAt: stamp } as Quote, {});
   await db.quotes.add(quote);
+  schedulePush();
   return quote;
 }
 
@@ -109,9 +130,11 @@ export async function updateQuote(id: string, patch: Partial<Quote>): Promise<vo
     if (!existing || existing.deletedAt) return;
     await db.quotes.put(merge(existing, { ...patch, updatedAt: now() }));
   });
+  schedulePush();
 }
 
 export async function deleteQuote(id: string): Promise<void> {
   const stamp = now();
   await db.quotes.update(id, { deletedAt: stamp, updatedAt: stamp });
+  schedulePush();
 }

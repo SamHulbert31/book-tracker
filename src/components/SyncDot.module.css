@@ -1,0 +1,11 @@
+.dot {
+  color: var(--muted);
+}
+
+.syncing {
+  color: var(--star);
+}
+
+.error {
+  color: var(--oxblood);
+}

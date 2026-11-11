@@ -1,0 +1,77 @@
+.note {
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+.ok {
+  color: var(--green);
+}
+
+.bad {
+  color: var(--oxblood);
+}
+
+.pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.pair > button {
+  padding: 0 8px;
+}
+
+.secret {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.reveal {
+  flex: none;
+  min-width: var(--tap);
+  min-height: var(--tap);
+  padding: 0 8px;
+  border: none;
+  background: transparent;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--green);
+}
+
+.statusRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.dot {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.dot::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 6px;
+  border-radius: 4px;
+  background: currentColor;
+}
+
+.synced {
+  color: var(--green);
+}
+
+.syncing {
+  color: var(--star);
+}
+
+.error {
+  color: var(--oxblood);
+}

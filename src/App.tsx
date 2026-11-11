@@ -1,4 +1,6 @@
+import { useEffect } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
+import { startSync } from './sync';
 import { AppShell } from './components/AppShell';
 import { Home } from './screens/Home';
 import { Library } from './screens/Library';
@@ -7,8 +9,12 @@ import { BookDetail } from './screens/BookDetail';
 import { Stats } from './screens/Stats';
 import { Session } from './screens/Session';
 import { Quotes } from './screens/Quotes';
+import { Settings } from './screens/Settings';
 
 export function App() {
+  // Sync on open, when the app returns to the foreground and when the connection comes back.
+  useEffect(() => void startSync(), []);
+
   return (
     <Routes>
       <Route element={<AppShell />}>
@@ -19,6 +25,7 @@ export function App() {
         <Route path="session/:id" element={<Session />} />
         <Route path="quotes" element={<Quotes />} />
         <Route path="stats" element={<Stats />} />
+        <Route path="settings" element={<Settings />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
     </Routes>
