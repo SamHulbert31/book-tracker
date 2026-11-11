@@ -1,0 +1,60 @@
+.eyebrowLink {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  min-height: var(--tap);
+  /* 44px to tap, spacing the same as the mockup. */
+  margin: -15px 0;
+  text-decoration: none;
+}
+
+.text {
+  font-family: var(--font-display);
+  font-size: 21px;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.source {
+  flex: 1;
+  min-width: 0;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--on-green-soft);
+  text-decoration: none;
+  /* 44px to tap, without growing the card. */
+  display: flex;
+  align-items: center;
+  min-height: var(--tap);
+  margin: -13px 0;
+}
+
+.meta {
+  opacity: 0.85;
+}
+
+.shuffle {
+  flex: none;
+  width: var(--tap);
+  height: var(--tap);
+  margin: -8px -8px -8px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  color: var(--gold-label);
+}
+
+.shuffle:disabled {
+  opacity: 0.4;
+  cursor: default;
+}

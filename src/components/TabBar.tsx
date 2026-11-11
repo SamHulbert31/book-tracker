@@ -9,7 +9,7 @@ const TABS = [
     label: 'Library',
     icon: <LibraryIcon />,
     // A single book belongs to the Library tab.
-    matches: (p: string) => p.startsWith('/library') || p.startsWith('/book/') || p.startsWith('/add'),
+    matches: (p: string) => p.startsWith('/library') || p.startsWith('/book/') || p.startsWith('/add') || p.startsWith('/session/') || p.startsWith('/quotes'),
   },
   { to: '/stats', label: 'Stats', icon: <StatsIcon />, matches: (p: string) => p.startsWith('/stats') },
 ];

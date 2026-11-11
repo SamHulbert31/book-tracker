@@ -22,9 +22,9 @@ export function ScreenHeader({ title, eyebrow, action }: ScreenHeaderProps) {
 }
 
 /** The round "+" button at the right of a screen header. */
-export function AddButton({ onClick }: { onClick?: () => void }) {
+export function AddButton({ onClick, label = 'Add a book' }: { onClick?: () => void; label?: string }) {
   return (
-    <button type="button" className={styles.add} aria-label="Add a book" onClick={onClick}>
+    <button type="button" className={styles.add} aria-label={label} onClick={onClick}>
       <PlusIcon />
     </button>
   );

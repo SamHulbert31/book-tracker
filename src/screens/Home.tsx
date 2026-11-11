@@ -1,12 +1,15 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useBooks, useSessions } from '../db/hooks';
+import type { Book } from '../db/types';
+import { useBooks, useQuotes, useSessions } from '../db/hooks';
 import { AddButton, ScreenHeader } from '../components/ScreenHeader';
 import { Screen } from '../components/Screen';
 import { Card, CardHeading, Eyebrow, CardTitle } from '../components/Card';
 import { Tile } from '../components/Tile';
 import { BarChart } from '../components/BarChart';
 import { ReadingCard } from '../components/ReadingCard';
+import { QuoteCard } from '../components/QuoteCard';
+import { LogSessionSheet } from '../sheets/LogSessionSheet';
 import { Button } from '../components/Button';
 import { READER_NAME } from '../lib/config';
 import { MONTH_LETTERS, formatNumber, greeting, longDate } from '../lib/dates';
@@ -17,6 +20,8 @@ export function Home() {
   const navigate = useNavigate();
   const books = useBooks();
   const sessions = useSessions();
+  const quotes = useQuotes();
+  const [logging, setLogging] = useState<Book | null>(null);
   const now = new Date();
   const year = now.getFullYear();
   const month = now.getMonth();
@@ -35,19 +40,31 @@ export function Home() {
     };
   }, [books, sessions, year, month]);
 
+  const quoteItems = useMemo(() => {
+    const byId = new Map((books ?? []).map((b) => [b.id, b]));
+    return (quotes ?? []).flatMap((quote) => {
+      const book = byId.get(quote.bookId);
+      return book ? [{ quote, book }] : [];
+    });
+  }, [books, quotes]);
+
   return (
     <Screen gap={16}>
       <ScreenHeader eyebrow={longDate(now)} title={`${greeting(now)}, ${READER_NAME}`} action={<AddButton onClick={() => navigate('/add')} />} />
 
-      {/* Shows a random quote once any exist; until then, a gentle prompt. */}
-      <Card tone="green" padding={20}>
-        <Eyebrow tone="gold">From your quotes</Eyebrow>
-        <p className={styles.quotePrompt}>Save a favourite line from any book and it will turn up here.</p>
-      </Card>
+      {/* A random quote once any exist; until then, a gentle prompt. */}
+      {quoteItems.length > 0 ? (
+        <QuoteCard items={quoteItems} />
+      ) : (
+        <Card tone="green" padding={20}>
+          <Eyebrow tone="gold">From your quotes</Eyebrow>
+          <p className={styles.quotePrompt}>Save a favourite line from any book and it will turn up here.</p>
+        </Card>
+      )}
 
       {data &&
         (data.reading.length > 0 ? (
-          <ReadingCard books={data.reading} onLog={(book) => navigate(`/book/${book.id}`)} />
+          <ReadingCard books={data.reading} onLog={setLogging} />
         ) : (
           <Card row>
             <div className={styles.ghostCover} aria-hidden="true" />
@@ -82,6 +99,18 @@ export function Home() {
           ariaLabel={`Books finished each month of ${year}`}
         />
       </Card>
+      {logging && (
+        <LogSessionSheet
+          book={logging}
+          onClose={() => setLogging(null)}
+          onStartTimer={() => navigate(`/session/${logging.id}`)}
+          onSaved={(finished) => {
+            const id = logging.id;
+            setLogging(null);
+            if (finished) navigate(`/book/${id}`, { state: { finish: true } });
+          }}
+        />
+      )}
     </Screen>
   );
 }

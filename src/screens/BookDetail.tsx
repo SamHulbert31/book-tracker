@@ -1,12 +1,13 @@
 import { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useBook } from '../db/hooks';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import type { Quote, Session } from '../db/types';
+import { useBook, useBookQuotes, useBookSessions } from '../db/hooks';
 import { deleteBook, moveToTbr, startReading, updateBook } from '../db/repo';
 import { Screen } from '../components/Screen';
 import { EmptyState } from '../components/EmptyState';
 import { BackLink } from '../components/BackLink';
 import { Button } from '../components/Button';
-import { Card, CardTitle } from '../components/Card';
+import { Card, CardHeading, CardTitle } from '../components/Card';
 import { Cover } from '../components/Cover';
 import { GenreChips } from '../components/Chips';
 import { StarInput } from '../components/Stars';
@@ -16,7 +17,11 @@ import { FinishSheet } from '../sheets/FinishSheet';
 import { DateSheet } from '../sheets/DateSheet';
 import { ReviewSheet } from '../sheets/ReviewSheet';
 import { ConfirmSheet } from '../sheets/ConfirmSheet';
-import { daysBetween, formatDate, formatDays, todayISO } from '../lib/dates';
+import { SessionSheet } from '../sheets/SessionSheet';
+import { QuoteSheet } from '../sheets/QuoteSheet';
+import { readTimer } from '../lib/timer';
+import { quoteMeta } from '../lib/quotes';
+import { daysBetween, formatDate, formatDays, formatDuration, todayISO } from '../lib/dates';
 import styles from './BookDetail.module.css';
 
 type SheetName = 'edit' | 'finish' | 'started' | 'finished' | 'review' | 'delete';
@@ -24,8 +29,15 @@ type SheetName = 'edit' | 'finish' | 'started' | 'finished' | 'review' | 'delete
 export function BookDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const book = useBook(id);
-  const [sheet, setSheet] = useState<SheetName | null>(null);
+  const sessions = useBookSessions(id);
+  const quotes = useBookQuotes(id);
+  // Arriving from a session that reached the last page opens the finish sheet straight away.
+  const [sheet, setSheet] = useState<SheetName | null>((location.state as { finish?: boolean } | null)?.finish ? 'finish' : null);
+  const [editingSession, setEditingSession] = useState<Session | null>(null);
+  const [quoteSheet, setQuoteSheet] = useState<{ quote?: Quote } | null>(null);
+  const [showAllSessions, setShowAllSessions] = useState(false);
   // The rating shown while the stars are being dragged, before it is saved.
   const [draftRating, setDraftRating] = useState<number>();
 
@@ -41,6 +53,12 @@ export function BookDetail() {
   }
 
   const close = () => setSheet(null);
+
+  const orderedSessions = [...(sessions ?? [])].sort((a, b) => b.date.localeCompare(a.date) || b.createdAt.localeCompare(a.createdAt));
+  const shownSessions = showAllSessions ? orderedSessions : orderedSessions.slice(0, 3);
+  const totalSeconds = orderedSessions.reduce((sum, x) => sum + x.durationSec, 0);
+  const latestQuote = [...(quotes ?? [])].sort((a, b) => b.createdAt.localeCompare(a.createdAt))[0];
+  const timerHere = readTimer()?.bookId === book.id;
   const rating = draftRating ?? book.rating;
   const meta = [book.author || undefined, book.year, book.pages ? `${book.pages} pages` : undefined].filter(Boolean).join(' · ');
   const timeLabel = book.status === 'reading' ? 'Reading for' : 'Time taken';
@@ -105,6 +123,55 @@ export function BookDetail() {
         </button>
       )}
 
+      {book.status !== 'tbr' && (
+        <Card gap={10}>
+          <CardHeading
+            title="Reading sessions"
+            aside={totalSeconds > 0 ? `${formatDuration(totalSeconds)} total` : undefined}
+          />
+          {orderedSessions.length === 0 && <p className={styles.reviewEmpty}>No sessions yet.</p>}
+          {shownSessions.map((s) => (
+            <button key={s.id} type="button" className={styles.sessionRow} onClick={() => setEditingSession(s)} aria-label={`Edit session on ${formatDate(s.date)}`}>
+              <span>
+                {formatDate(s.date)}
+                {s.startPage !== undefined && s.endPage !== undefined ? ` · pages ${s.startPage} to ${s.endPage}` : ''}
+              </span>
+              <strong>{s.durationSec > 0 ? formatDuration(s.durationSec) : '–'}</strong>
+            </button>
+          ))}
+          {orderedSessions.length > 3 && (
+            <Button variant="quiet" onClick={() => setShowAllSessions((v) => !v)}>
+              {showAllSessions ? 'Show fewer' : `Show all ${orderedSessions.length}`}
+            </Button>
+          )}
+          <Button variant="outline" block onClick={() => navigate(`/session/${book.id}`)}>
+            {timerHere ? 'Resume timed session' : 'Start a timed session'}
+          </Button>
+        </Card>
+      )}
+
+      <Card tone="green" gap={10}>
+        <div className={styles.quotesHead}>
+          <CardTitle>Quotes · {quotes?.length ?? 0}</CardTitle>
+          <button type="button" className={styles.addQuote} onClick={() => setQuoteSheet({})}>
+            Add quote
+          </button>
+        </div>
+        {latestQuote ? (
+          <button type="button" className={styles.latestQuote} onClick={() => setQuoteSheet({ quote: latestQuote })} aria-label="Edit latest quote">
+            <span className={styles.quoteText}>“{latestQuote.text}”</span>
+            {quoteMeta(latestQuote) && <span className={styles.quoteMeta}>{quoteMeta(latestQuote)}</span>}
+          </button>
+        ) : (
+          <p className={styles.quoteMeta}>Save a line you want to remember.</p>
+        )}
+        {(quotes?.length ?? 0) > 0 && (
+          <Link to={`/quotes?book=${book.id}`} className={styles.allQuotes}>
+            All quotes
+          </Link>
+        )}
+      </Card>
+
       <div className={styles.actions}>
         {book.status === 'tbr' && (
           <Button block onClick={() => startReading(book.id)}>
@@ -144,6 +211,8 @@ export function BookDetail() {
         />
       )}
       {sheet === 'finish' && <FinishSheet book={book} onClose={close} />}
+      {editingSession && <SessionSheet session={editingSession} book={book} onClose={() => setEditingSession(null)} />}
+      {quoteSheet && <QuoteSheet quote={quoteSheet.quote} bookId={book.id} onClose={() => setQuoteSheet(null)} />}
       {sheet === 'started' && (
         <DateSheet
           title="Date started"

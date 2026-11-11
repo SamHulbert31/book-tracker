@@ -18,3 +18,21 @@ export function useBook(id: string | undefined) {
     return book && !book.deletedAt ? book : null;
   }, [id]);
 }
+
+export function useQuotes() {
+  return useLiveQuery(() => db.quotes.filter((q) => !q.deletedAt).toArray(), []);
+}
+
+export function useBookSessions(bookId: string | undefined) {
+  return useLiveQuery(
+    () => (bookId ? db.sessions.where('bookId').equals(bookId).filter((s) => !s.deletedAt).toArray() : []),
+    [bookId],
+  );
+}
+
+export function useBookQuotes(bookId: string | undefined) {
+  return useLiveQuery(
+    () => (bookId ? db.quotes.where('bookId').equals(bookId).filter((q) => !q.deletedAt).toArray() : []),
+    [bookId],
+  );
+}

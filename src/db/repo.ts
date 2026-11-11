@@ -1,5 +1,5 @@
 import { db } from './db';
-import type { Book } from './types';
+import type { Book, Quote, Session } from './types';
 import { todayISO } from '../lib/dates';
 
 const now = () => new Date().toISOString();
@@ -52,4 +52,66 @@ export async function deleteBook(id: string): Promise<void> {
     await db.sessions.where('bookId').equals(id).modify({ deletedAt: stamp, updatedAt: stamp });
     await db.quotes.where('bookId').equals(id).modify({ deletedAt: stamp, updatedAt: stamp });
   });
+}
+
+// ---- Sessions
+
+export type NewSession = Pick<Session, 'bookId' | 'date' | 'durationSec'> & Partial<Pick<Session, 'startPage' | 'endPage'>>;
+
+export async function addSession(input: NewSession): Promise<Session> {
+  const stamp = now();
+  const session = merge({ ...input, id: crypto.randomUUID(), createdAt: stamp, updatedAt: stamp } as Session, {});
+  await db.sessions.add(session);
+  return session;
+}
+
+export async function updateSession(id: string, patch: Partial<Session>): Promise<void> {
+  await db.transaction('rw', db.sessions, async () => {
+    const existing = await db.sessions.get(id);
+    if (!existing || existing.deletedAt) return;
+    await db.sessions.put(merge(existing, { ...patch, updatedAt: now() }));
+  });
+}
+
+export async function deleteSession(id: string): Promise<void> {
+  const stamp = now();
+  await db.sessions.update(id, { deletedAt: stamp, updatedAt: stamp });
+}
+
+/**
+ * Records a new current page. Moving forward logs a session without a timer
+ * (which also counts toward the streak); moving back is treated as a correction.
+ */
+export async function logPages(book: Book, page: number): Promise<void> {
+  const previous = book.currentPage ?? 0;
+  await db.transaction('rw', db.books, db.sessions, async () => {
+    if (page > previous) {
+      await addSession({ bookId: book.id, date: todayISO(), startPage: previous, endPage: page, durationSec: 0 });
+    }
+    await updateBook(book.id, { currentPage: page });
+  });
+}
+
+// ---- Quotes
+
+export type NewQuote = Pick<Quote, 'bookId' | 'text'> & Partial<Pick<Quote, 'page' | 'chapter'>>;
+
+export async function addQuote(input: NewQuote): Promise<Quote> {
+  const stamp = now();
+  const quote = merge({ ...input, id: crypto.randomUUID(), createdAt: stamp, updatedAt: stamp } as Quote, {});
+  await db.quotes.add(quote);
+  return quote;
+}
+
+export async function updateQuote(id: string, patch: Partial<Quote>): Promise<void> {
+  await db.transaction('rw', db.quotes, async () => {
+    const existing = await db.quotes.get(id);
+    if (!existing || existing.deletedAt) return;
+    await db.quotes.put(merge(existing, { ...patch, updatedAt: now() }));
+  });
+}
+
+export async function deleteQuote(id: string): Promise<void> {
+  const stamp = now();
+  await db.quotes.update(id, { deletedAt: stamp, updatedAt: stamp });
 }
