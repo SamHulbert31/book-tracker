@@ -1,0 +1,23 @@
+.tile {
+  min-width: 0;
+  padding: 12px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-tile);
+}
+
+.wide {
+  padding: 12px 14px;
+}
+
+.value {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.label {
+  font-size: 12px;
+  color: var(--muted);
+}

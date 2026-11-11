@@ -1,0 +1,28 @@
+.track {
+  display: grid;
+  gap: 4px;
+  padding: 4px;
+  background: var(--track);
+  border-radius: var(--radius-tile);
+}
+
+.segment {
+  height: var(--tap);
+  min-width: 0;
+  padding: 0 4px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--ink-2);
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.active {
+  background: var(--green);
+  color: var(--on-green);
+  font-weight: 600;
+}

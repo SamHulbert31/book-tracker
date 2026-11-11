@@ -1,0 +1,54 @@
+.search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 48px;
+  padding: 0 14px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-tile);
+  color: var(--muted);
+}
+
+.search svg {
+  flex: none;
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  padding: 0;
+  border: none;
+  background: transparent;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.input::placeholder {
+  color: var(--muted);
+  opacity: 0.8;
+}
+
+.sortRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* The Filter button is 44px tall; pull the row back to the mockup rhythm. */
+  margin: -12px 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.filter {
+  min-width: var(--tap);
+  height: var(--tap);
+  padding: 0;
+  border: none;
+  background: transparent;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--green);
+  text-align: right;
+}

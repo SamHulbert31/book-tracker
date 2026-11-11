@@ -1,0 +1,34 @@
+:root {
+  /* Colours */
+  --bg: #f3eadb;
+  --card: #fbf6ec;
+  --border: #e2d5bf;
+  --track: #e8dcc6;
+  --ink: #2a2118;
+  --ink-2: #4a3f33;
+  --muted: #6b5d4d;
+  --green: #26432f;
+  --on-green: #f3eadb;
+  --on-green-soft: #e4dac4;
+  --gold-label: #d9c48f;
+  --star: #a56a12;
+  --star-empty: #d6c8ae;
+  --oxblood: #7c2f2b;
+  --bar: #b8a27a;
+
+  /* Type */
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+
+  /* Shape */
+  --radius-card: 18px;
+  --radius-tile: 14px;
+  --radius-button: 12px;
+  --radius-chip: 12px;
+  --radius-cover: 4px 8px 8px 4px;
+
+  /* Layout */
+  --screen-pad: 20px;
+  --app-max-width: 480px;
+  --tap: 44px;
+}

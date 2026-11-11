@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <title>Library</title>
+  <rect width="512" height="512" fill="#26432F"/>
+  <!-- Three book spines, bottom aligned, kept inside the centre 60% (x and y 154 to 358) -->
+  <rect x="164" y="162" width="56" height="196" rx="6" fill="#F3EADB"/>
+  <rect x="232" y="154" width="44" height="204" rx="6" fill="#D9C48F"/>
+  <rect x="288" y="172" width="60" height="186" rx="6" fill="#F3EADB"/>
+  <!-- Spine bands in the background colour -->
+  <rect x="164" y="190" width="56" height="8" fill="#26432F"/>
+  <rect x="164" y="318" width="56" height="8" fill="#26432F"/>
+  <rect x="232" y="182" width="44" height="8" fill="#26432F"/>
+  <rect x="232" y="318" width="44" height="8" fill="#26432F"/>
+  <rect x="288" y="200" width="60" height="8" fill="#26432F"/>
+  <rect x="288" y="318" width="60" height="8" fill="#26432F"/>
+</svg>

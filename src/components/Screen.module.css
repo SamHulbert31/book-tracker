@@ -1,0 +1,13 @@
+.screen {
+  display: flex;
+  flex-direction: column;
+  /* The top clears the notch or status bar. */
+  padding-top: calc(24px + env(safe-area-inset-top));
+  padding-bottom: 24px;
+  padding-left: max(var(--screen-pad), env(safe-area-inset-left));
+  padding-right: max(var(--screen-pad), env(safe-area-inset-right));
+}
+
+.compactTop {
+  padding-top: calc(16px + env(safe-area-inset-top));
+}

@@ -1,0 +1,40 @@
+.toast {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: calc(80px + env(safe-area-inset-bottom));
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 4px 4px 16px;
+  background: var(--green);
+  color: var(--on-green);
+  border-radius: var(--radius-card);
+  box-shadow: 0 6px 20px rgba(42, 33, 24, 0.25);
+}
+
+.text {
+  flex: 1;
+  font-size: 14px;
+}
+
+.update,
+.later {
+  min-width: var(--tap);
+  height: var(--tap);
+  padding: 0 12px;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+}
+
+.update {
+  font-weight: 600;
+  color: var(--gold-label);
+}
+
+.later {
+  font-weight: 500;
+  color: var(--on-green-soft);
+}

@@ -1,0 +1,34 @@
+.quotePrompt {
+  font-family: var(--font-display);
+  font-size: 21px;
+  line-height: 1.35;
+}
+
+.ghostCover {
+  flex: none;
+  width: 64px;
+  height: 96px;
+  border: 1.5px dashed var(--border);
+  border-radius: var(--radius-cover);
+}
+
+.reading {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+}
+
+.caption {
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}

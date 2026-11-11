@@ -1,0 +1,35 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.eyebrow {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 1.2;
+}
+
+.withEyebrow {
+  margin-top: 2px;
+}
+
+.add {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 22px;
+  border: none;
+  background: var(--green);
+  color: var(--on-green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

@@ -1,0 +1,16 @@
+.topBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.back {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: var(--tap);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--green);
+  text-decoration: none;
+}
