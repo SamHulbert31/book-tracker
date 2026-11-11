@@ -1,0 +1,39 @@
+.button {
+  min-height: var(--tap);
+  padding: 0 20px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-button);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.block {
+  display: block;
+  width: 100%;
+}
+
+.primary {
+  background: var(--green);
+  color: var(--on-green);
+}
+
+.outline {
+  background: transparent;
+  border-color: var(--green);
+  color: var(--green);
+}
+
+.quiet {
+  background: transparent;
+  color: var(--green);
+}
+
+.danger {
+  background: transparent;
+  color: var(--oxblood);
+}

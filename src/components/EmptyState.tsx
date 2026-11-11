@@ -13,16 +13,7 @@ export function EmptyState({ title, children, action }: EmptyStateProps) {
     <div className={styles.empty}>
       <h2 className={styles.title}>{title}</h2>
       <p className={styles.body}>{children}</p>
-      {action}
+      {action && <div className={styles.action}>{action}</div>}
     </div>
-  );
-}
-
-/** Solid green button, the primary action. */
-export function PrimaryButton({ children, onClick }: { children: ReactNode; onClick?: () => void }) {
-  return (
-    <button type="button" className={styles.primary} onClick={onClick}>
-      {children}
-    </button>
   );
 }

@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { AddButton, ScreenHeader } from '../components/ScreenHeader';
 import { Screen } from '../components/Screen';
 import { Card, CardHeading, CardTitle, Eyebrow } from '../components/Card';
@@ -8,12 +9,13 @@ import { MONTH_LETTERS, greeting, longDate } from '../lib/dates';
 import styles from './Home.module.css';
 
 export function Home() {
+  const navigate = useNavigate();
   const now = new Date();
   const year = now.getFullYear();
 
   return (
     <Screen gap={16}>
-      <ScreenHeader eyebrow={longDate(now)} title={`${greeting(now)}, ${READER_NAME}`} action={<AddButton />} />
+      <ScreenHeader eyebrow={longDate(now)} title={`${greeting(now)}, ${READER_NAME}`} action={<AddButton onClick={() => navigate('/add')} />} />
 
       {/* Shows a random quote once any exist; until then, a gentle prompt. */}
       <Card tone="green" padding={20}>

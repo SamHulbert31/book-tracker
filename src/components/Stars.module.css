@@ -1,0 +1,28 @@
+.stars {
+  position: relative;
+  width: max-content;
+  color: var(--star-empty);
+  white-space: nowrap;
+}
+
+.fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  color: var(--star);
+}
+
+.input {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  max-width: 100%;
+  /* Dragging across the stars must not scroll the page. */
+  touch-action: none;
+  cursor: pointer;
+  border-radius: 8px;
+  user-select: none;
+  -webkit-user-select: none;
+}

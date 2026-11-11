@@ -1,0 +1,73 @@
+.cover {
+  position: relative;
+  flex: none;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  box-sizing: border-box;
+  border-radius: var(--radius-cover);
+  background: var(--track);
+  color: var(--card);
+  font-family: var(--font-display);
+  line-height: 1.2;
+}
+
+.cover img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* The darker strip on the left edge suggests a spine. */
+.spine {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: var(--spine);
+  background: rgba(0, 0, 0, 0.18);
+}
+
+.title {
+  position: relative;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+  line-clamp: 5;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+}
+
+.xs {
+  --spine: 3px;
+  width: 44px;
+  height: 66px;
+  padding: 5px;
+  font-size: 9px;
+}
+
+.sm {
+  --spine: 4px;
+  width: 64px;
+  height: 96px;
+  padding: 8px;
+  font-size: 13px;
+}
+
+.md {
+  --spine: 5px;
+  width: 100%;
+  height: 136px;
+  padding: 10px;
+  font-size: 14px;
+}
+
+.lg {
+  --spine: 5px;
+  width: 96px;
+  height: 144px;
+  padding: 10px;
+  font-size: 14px;
+}

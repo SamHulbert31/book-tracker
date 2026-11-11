@@ -35,20 +35,79 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* The Filter button is 44px tall; pull the row back to the mockup rhythm. */
+  /* The buttons are 44px tall; pull the row back to the mockup rhythm. */
   margin: -12px 0;
+}
+
+.sortLabel,
+.filter {
+  height: var(--tap);
+  padding: 0;
+  border: none;
+  background: transparent;
   font-size: 13px;
+}
+
+.sortLabel {
   color: var(--muted);
+  text-align: left;
 }
 
 .filter {
   min-width: var(--tap);
-  height: var(--tap);
+  font-weight: 600;
+  color: var(--green);
+  text-align: right;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px 12px;
+  align-items: start;
+}
+
+.tile {
+  min-width: 0;
+}
+
+.tileLink {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.author {
+  font-size: 12px;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.progress {
+  height: 4px;
+  border-radius: 2px;
+  background: var(--border);
+}
+
+.progressFill {
+  height: 4px;
+  border-radius: 2px;
+  background: var(--green);
+}
+
+.start {
+  width: 100%;
+  min-height: var(--tap);
+  margin-top: -2px;
   padding: 0;
   border: none;
   background: transparent;
   font-size: 13px;
   font-weight: 600;
   color: var(--green);
-  text-align: right;
+  text-align: left;
 }

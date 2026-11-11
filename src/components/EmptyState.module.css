@@ -18,20 +18,16 @@
 }
 
 .body {
-  max-width: 28ch;
+  max-width: 30ch;
   font-size: 14px;
   line-height: 1.45;
   color: var(--muted);
 }
 
-.primary {
-  height: var(--tap);
+.action {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
   margin-top: 10px;
-  padding: 0 20px;
-  border: none;
-  border-radius: var(--radius-button);
-  background: var(--green);
-  color: var(--on-green);
-  font-size: 14px;
-  font-weight: 600;
 }

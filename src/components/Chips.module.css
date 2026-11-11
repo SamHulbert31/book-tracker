@@ -1,0 +1,37 @@
+.static {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.chip {
+  padding: 4px 10px;
+  border-radius: var(--radius-chip);
+  background: var(--track);
+  color: var(--ink-2);
+  font-size: 12px;
+}
+
+.picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.toggle {
+  min-width: var(--tap);
+  min-height: var(--tap);
+  padding: 0 14px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-chip);
+  background: var(--track);
+  color: var(--ink-2);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.on {
+  background: var(--green);
+  color: var(--on-green);
+  font-weight: 600;
+}
