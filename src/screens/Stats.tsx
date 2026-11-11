@@ -188,6 +188,8 @@ export function Stats() {
             )}
           </Card>
 
+          {books && <EnjoyingCard books={books} />}
+
           {stats.finished.length > 0 && (
             <>
               {stats.distribution.some((n) => n > 0) && (
@@ -227,8 +229,6 @@ export function Stats() {
           )}
         </>
       )}
-
-      {books && <EnjoyingCard books={books} />}
 
       {pickYear && (
         <YearSheet

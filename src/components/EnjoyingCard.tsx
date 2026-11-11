@@ -13,14 +13,14 @@ export function EnjoyingCard({ books }: { books: Book[] }) {
   if (!ai.enabled || !plan || !ai.result) return null;
   return (
     <Card tone="green" gap={6}>
-      <Eyebrow tone="gold">What you are enjoying</Eyebrow>
-      <p className={styles.summary}>{ai.result.summary}</p>
-      <div className={styles.footer}>
-        {ai.error && <span className={styles.errorOnGreen}>{ai.error}</span>}
+      <div className={styles.head}>
+        <Eyebrow tone="gold">What you are enjoying</Eyebrow>
         <button type="button" className={styles.refreshOnGreen} onClick={() => void ai.refresh()} disabled={ai.busy}>
           {ai.busy ? 'Refreshing…' : 'Refresh'}
         </button>
       </div>
+      <p className={styles.summary}>{ai.result.summary}</p>
+      {ai.error && <p className={styles.errorOnGreen}>{ai.error}</p>}
     </Card>
   );
 }

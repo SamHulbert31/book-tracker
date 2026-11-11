@@ -75,12 +75,13 @@
   color: var(--green);
 }
 
-.footer {
+.head {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
   gap: 12px;
-  margin: -6px 0 -14px;
+  /* The Refresh button is 44px tall; the row keeps the height of the label. */
+  margin: -15px 0;
 }
 
 .refresh,
@@ -111,7 +112,6 @@
 
 .error,
 .errorOnGreen {
-  flex: 1;
   font-size: 12px;
   line-height: 1.4;
 }

@@ -20,7 +20,7 @@
   flex-direction: column;
   width: 100%;
   max-width: var(--app-max-width);
-  max-height: calc(100% - 12px);
+  max-height: calc(100% - 12px - env(safe-area-inset-top));
   margin: 0 auto;
   background: var(--bg);
   border-radius: var(--radius-card) var(--radius-card) 0 0;

@@ -1,5 +1,6 @@
 .quotePrompt {
   font-family: var(--font-display);
+  font-weight: 400;
   font-size: 21px;
   line-height: 1.35;
 }
@@ -35,4 +36,18 @@
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 10px;
+}
+
+.settingsLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  align-self: center;
+  min-height: var(--tap);
+  padding: 0 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  text-decoration: none;
 }

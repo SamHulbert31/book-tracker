@@ -2,7 +2,9 @@ import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { Book } from '../db/types';
 import { useBooks, useQuotes, useSessions } from '../db/hooks';
-import { AddButton, ScreenHeader, SettingsLink } from '../components/ScreenHeader';
+import { Link } from 'react-router-dom';
+import { AddButton, ScreenHeader } from '../components/ScreenHeader';
+import { SettingsIcon } from '../components/Icons';
 import { SyncDot } from '../components/SyncDot';
 import { Screen } from '../components/Screen';
 import { Card, CardHeading, Eyebrow, CardTitle } from '../components/Card';
@@ -60,12 +62,7 @@ export function Home() {
           </>
         }
         title={`${greeting(now)}, ${READER_NAME}`}
-        action={
-          <div style={{ display: 'flex', gap: 8 }}>
-            <SettingsLink />
-            <AddButton onClick={() => navigate('/add')} />
-          </div>
-        }
+        action={<AddButton onClick={() => navigate('/add')} />}
       />
 
       {/* A random quote once any exist; until then, a gentle prompt. */}
@@ -87,11 +84,15 @@ export function Home() {
             <div className={styles.reading}>
               <Eyebrow>Currently reading</Eyebrow>
               <CardTitle>Nothing on the go</CardTitle>
-              <p className={styles.caption}>Start a book and your progress will show up here.</p>
+              <p className={styles.caption}>{books?.length ? 'Start a book and your progress will show up here.' : 'Add your first book to get started.'}</p>
               <div className={styles.cta}>
-                <Button variant="outline" onClick={() => navigate('/library')}>
-                  Open library
-                </Button>
+                {books?.length ? (
+                  <Button variant="outline" onClick={() => navigate('/library')}>
+                    Open library
+                  </Button>
+                ) : (
+                  <Button onClick={() => navigate('/add')}>Add a book</Button>
+                )}
               </div>
             </div>
           </Card>
@@ -117,6 +118,11 @@ export function Home() {
       </Card>
 
       {books && <SuggestedNext books={books} />}
+
+      <Link to="/settings" className={styles.settingsLink}>
+        <SettingsIcon size={18} />
+        Settings
+      </Link>
 
       {logging && (
         <LogSessionSheet

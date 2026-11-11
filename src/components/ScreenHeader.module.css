@@ -14,7 +14,6 @@
   font-family: var(--font-display);
   font-weight: 600;
   font-size: 30px;
-  line-height: 1.2;
 }
 
 .withEyebrow {
@@ -29,19 +28,6 @@
   border: none;
   background: var(--green);
   color: var(--on-green);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.ghost {
-  flex: none;
-  width: 44px;
-  height: 44px;
-  border-radius: 22px;
-  border: 1px solid var(--border);
-  background: var(--card);
-  color: var(--ink-2);
   display: flex;
   align-items: center;
   justify-content: center;

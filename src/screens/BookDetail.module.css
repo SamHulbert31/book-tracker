@@ -142,6 +142,7 @@
 
 .quoteText {
   font-family: var(--font-display);
+  font-weight: 400;
   font-size: 16px;
   line-height: 1.4;
   overflow-wrap: anywhere;
@@ -163,4 +164,10 @@
   font-weight: 600;
   color: var(--gold-label);
   text-decoration: none;
+}
+
+.sessionList {
+  display: flex;
+  flex-direction: column;
+  margin: -6px 0;
 }

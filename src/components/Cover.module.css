@@ -32,6 +32,7 @@
 
 .title {
   position: relative;
+  font-weight: 400;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 5;
@@ -49,6 +50,7 @@
 }
 
 .sm {
+  line-height: normal;
   --spine: 4px;
   width: 64px;
   height: 96px;

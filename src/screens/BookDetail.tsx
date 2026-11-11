@@ -130,6 +130,7 @@ export function BookDetail() {
             aside={totalSeconds > 0 ? `${formatDuration(totalSeconds)} total` : undefined}
           />
           {orderedSessions.length === 0 && <p className={styles.reviewEmpty}>No sessions yet.</p>}
+          <div className={styles.sessionList}>
           {shownSessions.map((s) => (
             <button key={s.id} type="button" className={styles.sessionRow} onClick={() => setEditingSession(s)} aria-label={`Edit session on ${formatDate(s.date)}`}>
               <span>
@@ -139,6 +140,7 @@ export function BookDetail() {
               <strong>{s.durationSec > 0 ? formatDuration(s.durationSec) : '–'}</strong>
             </button>
           ))}
+          </div>
           {orderedSessions.length > 3 && (
             <Button variant="quiet" onClick={() => setShowAllSessions((v) => !v)}>
               {showAllSessions ? 'Show fewer' : `Show all ${orderedSessions.length}`}

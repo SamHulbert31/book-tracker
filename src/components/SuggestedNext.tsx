@@ -35,7 +35,12 @@ export function SuggestedNext({ books }: { books: Book[] }) {
 
   return (
     <Card gap={6}>
-      <Eyebrow tone="oxblood">Suggested next</Eyebrow>
+      <div className={styles.head}>
+        <Eyebrow tone="oxblood">Suggested next</Eyebrow>
+        <button type="button" className={styles.refresh} onClick={() => void ai.refresh()} disabled={ai.busy}>
+          {ai.busy ? 'Refreshing…' : 'Refresh'}
+        </button>
+      </div>
       {pickBook && result.pick && (
         <>
           <Link to={`/book/${pickBook.id}`} className={styles.titleLink}>
@@ -71,12 +76,7 @@ export function SuggestedNext({ books }: { books: Book[] }) {
           ))}
         </div>
       )}
-      <div className={styles.footer}>
-        {ai.error && <span className={styles.error}>{ai.error}</span>}
-        <button type="button" className={styles.refresh} onClick={() => void ai.refresh()} disabled={ai.busy}>
-          {ai.busy ? 'Refreshing…' : 'Refresh'}
-        </button>
-      </div>
+      {ai.error && <p className={styles.error}>{ai.error}</p>}
     </Card>
   );
 }

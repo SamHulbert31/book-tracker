@@ -2,7 +2,7 @@
 
 A personal book tracker that installs to your phone's home screen. It is a static web app (Vite, React, TypeScript), hosted free on GitHub Pages. Your data stays on the device and syncs to a private GitHub repo you own. Nothing here needs a server or costs money.
 
-See `BRIEF.md` for the full spec and `design/` for the approved mockups. The build is split into phases. Phases 1 to 6 are done: scaffold and PWA, the data layer with add book / library / book detail, the home dashboard and stats, reading sessions (with a timer) and quotes, GitHub sync with export, import, Goodreads import and Settings, and the optional AI features. Still to come: a polish pass (phase 7).
+See `BRIEF.md` for the full spec and `design/` for the approved mockups. The build is split into phases. All seven phases are done: scaffold and PWA, the data layer with add book / library / book detail, the home dashboard and stats, reading sessions (with a timer) and quotes, GitHub sync with export, import, Goodreads import and Settings, the optional AI features, and a final polish pass against the mockups in `design/`.
 
 Data is stored in the browser on the device and synced to your private repo once Settings is filled in, so set that up before clearing site data.
 

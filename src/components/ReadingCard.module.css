@@ -79,13 +79,14 @@
 
 .log {
   min-height: var(--tap);
-  margin: -8px -8px -14px 0;
+  margin: -8px -8px -9px 0;
   padding: 0 8px;
   border: none;
   background: transparent;
   font-size: 13px;
   font-weight: 600;
   color: var(--green);
+  text-decoration: underline;
 }
 
 .dots {
